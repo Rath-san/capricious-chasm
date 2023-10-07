@@ -21,7 +21,9 @@ const { to, image, title, date, description } = Astro.props;
 ---
 
 <a href={to} class="project-thumbnail outlined-image">
-  <Image {...image} class="project-thumbnail__background" />
+  <Image
+    transition:name="hero"
+    {...image} class="project-thumbnail__background" />
 
   <div class="project-thumbnail__body">
     <div class="project-thumbnail__title">{title}</div>
