@@ -1,0 +1,63 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ProjectThumbnail from "./ProjectThumbnail.astro";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="project-list">
+  {
+    posts.map((post) => (
+      <div class="project-list__item">
+        <ProjectThumbnail
+          to={`/blog/${post.slug}/`}
+          title={post.data.title}
+          image={{
+            src: post.data.heroImage ?? "placeholder",
+            alt: "test",
+            width: 720,
+            height: 720,
+          }}
+          date={post.data.pubDate}
+          description={"test"}
+        />
+      </div>
+    ))
+  }
+</div>
+<style lang="scss">
+  @import "../styles/abstract/_breakpoints.scss";
+  .project-list {
+    display: grid;
+    // grid-template-columns: repeat(auto-fit, minmax(min(100%/3, max(64px, 100%/5)), 500px));
+    grid-template-columns: repeat(1, auto);
+
+    // display: flex;
+    // flex-wrap: wrap;
+    // > * {
+    //   flex:  0 100px;
+    // }
+
+    @include bp(small) {
+      grid-template-columns: repeat(2, auto);
+    }
+
+    @include bp(medium) {
+      grid-template-columns: repeat(3, auto);
+    }
+
+    @include bp(large) {
+      grid-template-columns: repeat(4, auto);
+    }
+
+    &__item {
+      // .outlined-image {
+      // border: 1px solid rgb(var(--white));
+      // }
+    }
+  }
+</style>

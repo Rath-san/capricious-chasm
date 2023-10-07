@@ -1,0 +1,60 @@
+---
+import { Image } from "astro:assets";
+import FormattedDate from "../components/FormattedDate.astro";
+
+interface ThumbnailImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+interface Props {
+  to: string;
+  image: ThumbnailImage;
+  title: string;
+  date: Date;
+  description: string;
+}
+
+const { to, image, title, date, description } = Astro.props;
+---
+
+<a href={to} class="project-thumbnail outlined-image">
+  <Image {...image} class="project-thumbnail__background" />
+
+  <div class="project-thumbnail__body">
+    <div class="project-thumbnail__title">{title}</div>
+    <div class="project-thumbnail__separator"></div>
+    <FormattedDate date={date} />
+    <div class="project-thumbnail__description">{description}</div>
+  </div>
+</a>
+<style>
+  .project-thumbnail {
+    position: relative;
+    display: block;
+  }
+
+  .project-thumbnail__background {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+
+  .project-thumbnail__body {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .project-thumbnail__separator {
+    height: 2px;
+    width: 100px;
+    background: currentColor;
+  }
+</style>

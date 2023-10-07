@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+
+const { src, alt } = Astro.props;
+---
+
+<div class="hero-image">
+  {
+    (
+      <Image
+        height={480}
+        width={1920}
+        src={src}
+        alt={alt}
+        class="hero-image__img"
+      />
+    )
+  }
+</div>
+
+<style lang="scss">
+  .hero-image {
+    width: 100%;
+    max-width: initial;
+    &__img {
+      max-width: initial;
+      width: 100%;
+      max-height: 480px;
+      object-fit: cover;
+    }
+  }
+</style>

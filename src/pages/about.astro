@@ -1,0 +1,51 @@
+---
+import { Image } from "astro:assets";
+import BaseHead from "../components/BaseHead.astro";
+import Navbar from "../components/navbar/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import HeroImage from "../components/HeroImage.astro";
+
+const title = "";
+const description = "";
+const image = {
+	src: '/blog-placeholder-about.jpg',
+	alt: '',
+}
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <!-- <body> -->
+  <!-- <Layout
+  title="Who i am?"
+  description="I’m Mikołaj Madejski. Passionate creator of media. I do designs."
+  pubDate={new Date("August 08 2021")}
+  heroImage="/blog-placeholder-about.jpg"
+> -->
+
+  <!-- </Layout> -->
+  <body>
+    <Navbar />
+    <main>
+      <article>
+		<HeroImage {...image}/>
+        <div class="prose">
+          <div class="title">
+            <h1>{title}</h1>
+          </div>
+          <h3>LET’S DO THE STUFF</h3>
+          <p>
+            Inspired by Toy Story in childhood, I have started exploring design
+            softwares for my own.
+          <br>
+           I’m Apple fun. I know that the hardest thing is to make design
+          simple. But the process of designing brings so much fun!
+		  </p>
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body><!-- </body> -->
+</html>

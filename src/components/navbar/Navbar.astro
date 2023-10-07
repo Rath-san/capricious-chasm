@@ -1,0 +1,69 @@
+---
+import HeaderLink from "../HeaderLink.astro";
+import { SITE_TITLE } from "../../consts";
+import Logo from "../ui/Logo.astro";
+---
+
+<header>
+  <nav>
+    <h2><a href="/">{SITE_TITLE}</a></h2>
+    <div class="header__logo">
+      <a href="/">
+        <Logo />
+      </a>
+    </div>
+    <div class="internal-links">
+      <HeaderLink href="/about">Info</HeaderLink>
+    </div>
+  </nav>
+</header>
+<style lang="scss">
+  @import '../../styles/abstract/_breakpoints.scss';
+  header {
+    margin: 0;
+    padding: 2%;
+    /* background: var(); */
+    box-shadow: 0 0.125rem 0.5rem rgba(var(--black), 5%);
+
+    @include bp(medium) {
+      padding: 3.375rem;
+    }
+  }
+  h2 {
+    margin: 0;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    a {
+      &.active {
+        text-decoration: none;
+      }
+    }
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    a {
+      line-height: 1;
+      display: inline-block;
+      padding: 1rem;
+      // color: var(--black);
+      // border-bottom: .25rem solid transparent;
+      text-decoration: none;
+      &.active {
+        text-decoration: none;
+        // border-bottom-color: var(--accent);
+      }
+    }
+  }
+
+  .header__logo {
+    // margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 0;
+  }
+</style>
