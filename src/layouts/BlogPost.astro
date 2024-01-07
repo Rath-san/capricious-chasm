@@ -27,10 +27,10 @@ const { slug } = Astro.params;
           />
         )
       }
-      <div class="blog__grid">
-        <!-- some sections -->
-        <!-- <div class="prose"> -->
-        <!-- <div class="title">
+
+      <!-- some sections -->
+      <!-- <div class="prose"> -->
+      <!-- <div class="title">
 							<h1>{title}</h1>
 							<div class="date">
 								<FormattedDate date={pubDate} />
@@ -43,11 +43,10 @@ const { slug } = Astro.params;
 								}
 							</div>
 						</div> -->
-        <!-- text content -->
-        <!-- </div> -->
+      <!-- text content -->
+      <!-- </div> -->
 
-        <slot />
-      </div>
+      <slot />
     </article>
   </main>
 </Layout>

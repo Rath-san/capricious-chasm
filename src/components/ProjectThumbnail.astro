@@ -48,7 +48,7 @@ const { slug, image, title, date, description } = Astro.props;
       .project-thumbnail {
         &__background {
           transform: scale(1.1);
-          opacity: .5;
+          opacity: 0.5;
         }
 
         &__body {
@@ -78,7 +78,7 @@ const { slug, image, title, date, description } = Astro.props;
     transition:
       transform $transition-time $transition-timing,
       opacity $transition-time $transition-timing;
-  
+
     opacity: 1;
   }
 
@@ -95,15 +95,20 @@ const { slug, image, title, date, description } = Astro.props;
       max-width: 80%;
       margin: auto;
 
-      opacity: 0;
+      @media (any-hover: hover) {
+        opacity: 0;
+      }
+
       transition: opacity $transition-time $transition-timing;
     }
     &__title {
       // outline: 1px solid blue;
-      transform: scale(.9);
+      @media (any-hover: hover) {
+        transform: scale(0.9);
+        transition: transform $transition-time $transition-timing;
+      }
       // font-size: 2rem;
       margin-bottom: 1.2rem;
-      transition: transform $transition-time $transition-timing;
 
       display: -webkit-box;
       overflow: hidden;
@@ -114,13 +119,17 @@ const { slug, image, title, date, description } = Astro.props;
     &__date {
       // outline: 1px solid blue;
       margin-bottom: 10px;
-      transform: translateY(20px);
-      transition: transform $transition-time $transition-timing;
+      @media (any-hover: hover) {
+        transform: translateY(20px);
+        transition: transform $transition-time $transition-timing;
+      }
     }
     &__description {
       // outline: 1px solid blue;
-      transform: translateY(20px);
-      transition: transform $transition-time $transition-timing;
+      @media (any-hover: hover) {
+        transform: translateY(20px);
+        transition: transform $transition-time $transition-timing;
+      }
 
       display: -webkit-box;
       overflow: hidden;

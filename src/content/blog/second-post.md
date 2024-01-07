@@ -1,5 +1,6 @@
 ---
 title: 'Second post'
+layout: '../../layouts/BaseBlogPost.astro'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 'Jul 22 2022'
 heroImage: '/assets/images/blog-placeholder-4.jpg'
