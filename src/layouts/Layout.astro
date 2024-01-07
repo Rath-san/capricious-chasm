@@ -2,12 +2,12 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import "../styles/index.scss";
-import { ViewTransitions } from "astro:transitions";
+// import { ViewTransitions } from "astro:transitions";
 import Navbar from "../components/navbar/Navbar.astro";
-import LottieAnimation from "astro-integration-lottie/Lottie.astro";
+import { SITE_TITLE } from "../consts";
 
 interface Props {
-  title: string;
+  title?: string;
   description: string;
   image?: string;
 }
@@ -15,9 +15,9 @@ interface Props {
 // const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const {
-  title,
+  title = SITE_TITLE,
   description,
-  image = "/assets/images/blog-placeholder-1.jpg",
+  image = "/assets/images/mikolaj_madejski.jpg",
 } = Astro.props;
 ---
 
@@ -27,7 +27,7 @@ const {
     <!-- Global Metadata -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Font preloads -->
@@ -42,18 +42,18 @@ const {
     <!-- <ViewTransitions /> -->
 
     <!-- Open Graph / Facebook -->
-    <!-- <meta property="og:type" content="website" />
+    <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.url)} /> -->
+    <meta property="og:image" content={new URL(image, Astro.url)} />
 
     <!-- Twitter -->
-    <!-- <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={Astro.url} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.url)} /> -->
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
   </head>
   <body>
     <Navbar transition:animate="none" />
@@ -109,7 +109,7 @@ const {
 
   document.addEventListener("mousemove", (e) => {
     if (!cursorInitialized) {
-      cursor.classList.add('active')
+      cursor.classList.add("active");
       cursorInitialized = true;
     }
 

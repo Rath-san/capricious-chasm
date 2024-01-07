@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import HeroImage from "../components/HeroImage.astro";
 import Layout from "./Layout.astro";
+import { SITE_TITLE } from "../consts";
 
 const { title, description, pubDate, updatedDate, heroImage, name } =
   Astro.props;
@@ -9,7 +10,7 @@ const { title, description, pubDate, updatedDate, heroImage, name } =
 const { slug } = Astro.params;
 ---
 
-<Layout title={title} description={description}>
+<Layout title={`${SITE_TITLE}:${title}`} description={description}>
   <main>
     <article>
       <!-- <div class="hero-image">
