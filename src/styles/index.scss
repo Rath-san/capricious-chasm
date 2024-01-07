@@ -219,9 +219,10 @@ hr {
 }
 
 .prose {
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 330px;
   max-width: 75%;
-  margin: auto;
 
   @include bp(small) {
     max-width: 480px;
