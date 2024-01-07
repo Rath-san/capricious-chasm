@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string;
+  date: string;
+  text: string;
+}
+
+const { title, date, text } = Astro.props;
+---
+
+<div class="head__wrapper">
+  <div class="head">
+    <h1 class="title display-1">
+      {title}
+    </h1>
+    <div class="date">{date}</div>
+    <p class="text">{text}</p>
+  </div>
+</div>
+
+<style lang="scss">
+  .title {
+    margin-bottom: 1.25rem;
+  }
+  .date {
+    margin-bottom: 2rem;
+  }
+
+  .text {
+    max-width: 28.75rem;
+  }
+</style>

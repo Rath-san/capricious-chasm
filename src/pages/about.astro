@@ -1,107 +1,205 @@
 ---
-import { Image } from "astro:assets";
-import BaseHead from "../components/BaseHead.astro";
-import Navbar from "../components/navbar/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import HeroImage from "../components/HeroImage.astro";
+import Layout from "../layouts/Layout.astro";
+import { CONTACT } from "../consts";
 
 const title = "";
 const description = "";
 const image = {
-  src: "/mikolaj_madejski.jpg",
+  src: "/assets/images/mikolaj_madejski.jpg",
   alt: "",
 };
 ---
 
-<html lang="en">
-  <head>
-    <BaseHead title={title} description={description} />
-  </head>
-  <!-- <body> -->
-  <!-- <Layout
+<Layout
   title="Who i am?"
   description="I’m Mikołaj Madejski. Passionate creator of media. I do designs."
-  pubDate={new Date("August 08 2021")}
-  heroImage="/blog-placeholder-about.jpg"
-> -->
-
-  <!-- </Layout> -->
-  <body>
-    <Navbar />
-    <main>
-      <article>
-        <div class="hero-image__wrapper">
-          <div class="hero-image">
-            <HeroImage {...image} />
-          </div>
-          <div class="hero-image__gradient"></div>
-          <div class="hero-image__deco">
-            <p class="hero-image__text display-1">Hi!</p>
-            <h2 class="hero-image__title">WHO I AM?</h2>
+>
+  <main>
+    <article>
+      <div class="hero-image__wrapper">
+        <div class="hero-image">
+          <HeroImage image={image} />
+        </div>
+        <!-- <div class="hero-image__gradient"></div> -->
+        <div class="hero-image__deco">
+          <div class="hero-image__text hero-image__hi display-1">Hi!</div>
+          <div class="hero-image__content visible-large">
+            <h2 class="hero-image__title h5">WHO I AM?</h2>
             <p class="hero-image__text">
               I’m Mikołaj Madejski. Passionate creator of media. I do designs.
             </p>
-
-            <p class="hero-image__info">
-              <div class="info__phone">+48 515 307 817</div>
-              <a href="mailto:mikolaj.madejskii@gmail.com" class="info__mail">mikolaj.madejskii@gmail.com</a>
-            </p>
+          </div>
+          <div class="hero-image__info">
+            <a
+              href={`phone:${CONTACT.phone.replaceAll(" ", "")}`}
+              class="info__phone">{CONTACT.phone}</a
+            >
+            <a href={`mailto:${CONTACT.mail}`} class="info__mail"
+              >{CONTACT.mail}</a
+            >
           </div>
         </div>
-        <div class="prose">
-          <div class="title">
-            <h1>{title}</h1>
-          </div>
-          <h3>LET’S DO THE STUFF</h3>
-          <p>
-            Inspired by Toy Story in childhood, I have started exploring design
-            softwares for my own.
-            <br />
-             I’m Apple fun. I know that the hardest thing is to make design
-            simple. But the process of designing brings so much fun!
+      </div>
+      <div class="prose">
+        <div class="hero-image__content visible-small">
+          <h2 class="hero-image__title h5">WHO I AM?</h2>
+          <p class="hero-image__text">
+            I’m Mikołaj Madejski. Passionate creator of media. I do designs.
           </p>
         </div>
-      </article>
-    </main>
-    <Footer />
-  </body><style lang="scss">
-    .prose,
-    .hero-image__deco {
-      max-width: 700px;
-      width: 100%;
-      margin: auto;
+
+        <h2 class="h5">LET’S DO THE STUFF</h2>
+        <p>
+          Inspired by Toy Story in childhood, I have started exploring design
+          softwares for my own.
+          <br />
+           I’m Apple fun. I know that the hardest thing is to make design
+          simple. But the process of designing brings so much fun!
+        </p>
+        <div class="footer__wrapper">
+          <Footer />
+        </div>
+        <hr />
+        <h2 class="h5">SOFTWARE</h2>
+        <p>
+          Blender, Unreal Engine, Fusion 360, RizomUV, Substance Painter,
+          Photoshop, Illustrator, After Effects, Apple Motion, Final Cut Pro,
+          Figma
+        </p>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style lang="scss">
+  @import "../styles/abstract/_breakpoints.scss";
+  .prose,
+  .hero-image__deco {
+    max-width: 480px;
+    width: 100%;
+    margin: auto;
+  }
+
+  .hero-image {
+    // opacity: .1;
+
+    &__wrapper {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+
+      margin-bottom: 50px;
+
+      @include bp(small) {
+        margin-bottom: 100px;
+      }
+
+      > * {
+        // outline: 1px solid green;
+        grid-column: 1 / 1;
+        grid-row: 1 / 1;
+      }
     }
 
-    .hero-image {
-      &__wrapper {
-        position: relative;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
-        > * {
-          // outline: 1px solid green;
-          grid-column: 1 / 1;
-          grid-row: 1 / 1;
+    &__deco {
+      z-index: 1;
+      // outline: 1px solid red;
+      width: 100%;
+      display: flex;
+      margin-bottom: clamp(25px, 10%, 100px);
+      align-items: center;
+    }
+
+    &__content {
+      &.visible-small {
+        margin-bottom: 50px;
+        display: block;
+        @include bp(small) {
+          display: none;
         }
       }
-
-      &__deco {
-        z-index: 1;
-      }
-
-      &__gradient {
-        // outline: 1px solid red;
-        // position: absolute;
-        inset: 0;
-        z-index: 1;
-
-        background: linear-gradient(
-          175deg,
-          rgba(217, 217, 217, 0) 15%,
-          rgba(0, 0, 0, 0.82) 101%
-        );
-        background-blend-mode: multiply;
+      &.visible-large {
+        display: none;
+        @include bp(small) {
+          display: initial;
+        }
       }
     }
-  </style>
-</html>
+
+    &__text {
+      display: flex;
+      max-width: 320px;
+      // line-height: 1.3;
+      letter-spacing: 0.28px;
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    &__gradient {
+      // outline: 1px solid red;
+      // position: absolute;
+      inset: 0;
+      z-index: 1;
+
+      background: linear-gradient(
+        175deg,
+        rgba(217, 217, 217, 0) 15%,
+        rgba(0, 0, 0, 0.82) 101%
+      );
+      background-blend-mode: multiply;
+    }
+
+    &__hi,
+    &__info {
+      // outline: 1px solid blue;
+      position: absolute;
+
+      @include bp(small) {
+        position: fixed;
+      }
+    }
+
+    &__hi {
+      left: 12.5%;
+      top: 12.5%;
+      @include bp(small) {
+        left: 6%;
+        top: initial;
+      }
+    }
+
+    &__info {
+      right: 12.5%;
+      bottom: 12.5%;
+      @include bp(small) {
+        right: 6%;
+        bottom: initial;
+      }
+    }
+  }
+
+  .footer__wrapper {
+    margin: 105px 0 135px 0;
+  }
+
+  hr {
+    margin-bottom: 100px;
+  }
+
+  .prose {
+    margin-bottom: 330px;
+
+    max-width: 75%;
+
+    @include bp(small) {
+      max-width: 480px;
+    }
+  }
+</style>

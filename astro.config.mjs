@@ -1,15 +1,20 @@
 import { defineConfig } from "astro/config";
+// import AutoImport from 'astro-auto-import';
 import mdx from "@astrojs/mdx";
 
-import sitemap from "@astrojs/sitemap";
+// import sitemap from "@astrojs/sitemap";
+import lottie from "astro-integration-lottie";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://example.com",
-  integrations: [mdx(), sitemap()],
-  server: {
-    port: 3000,
-    host: true,
-    open: true,
-  },
+  integrations: [
+    lottie(),
+    // AutoImport({
+    //   imports: [
+    //     // Add your Note component to the auto-imports:
+    //     './src/components/BaseBlogImage.astro',
+    //   ],
+    // }),
+    mdx(),
+  ],
 });

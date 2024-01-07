@@ -1,33 +1,140 @@
 ---
 import { Image } from "astro:assets";
+import LottieAnimation from "astro-integration-lottie/Lottie.astro";
 
-const { src, alt } = Astro.props;
+const { image, id } = Astro.props;
+// console.log(image);
 ---
 
 <div class="hero-image">
+  <a href="/" class="hero__close">
+    <!-- <LottieAnimation
+      id="close-click"
+      src="/assets/animations/icon_exit_click.json"
+      autoplay={false}
+      player="light"
+      loop={false}
+    /> -->
+    <!-- <LottieAnimation
+      id="close-hover-off"
+      src="/assets/animations/icon_exit_hover-back.json"
+      autoplay="visible"
+      player="light"
+    /> -->
+    <LottieAnimation
+      id="close-hover"
+      src="/assets/animations/icon_exit_hover.json"
+      autoplay={false}
+      player="light"
+      loop={false}
+    />
+  </a>
   {
     (
       <Image
-        height={480}
+        alt={"no alt"}
         width={1920}
-        src={src}
-        alt={alt}
+        height={480}
+        loading="eager"
+        {...image}
         class="hero-image__img"
-        transition:name="hero"
       />
+      // transition:name={`img-${id}`}
     )
   }
 </div>
 
+<script is:inline>
+  const setupLottieAnimations = (astroLottie) => {
+    const closeAnimation = astroLottie.getAnimation("close-hover");
+
+    if (closeAnimation?.isLoaded) {
+      closeAnimation.container.addEventListener("mouseenter", () => {
+        closeAnimation.player.setDirection(1);
+        closeAnimation.player.play();
+      });
+
+      closeAnimation.container.addEventListener("mouseleave", () => {
+        closeAnimation.player.setDirection(-1);
+        closeAnimation.player.play();
+      });
+    }
+  };
+
+  document.addEventListener("astro:page-load", () => {
+    window.astroLottie && setupLottieAnimations(window.astroLottie);
+  });
+
+  document.addEventListener("astro-lottie-loaded", (e) => {
+    setupLottieAnimations(e.detail);
+  });
+</script>
+
 <style lang="scss">
+  @import "../styles/abstract/_breakpoints.scss";
   .hero-image {
     width: 100%;
     max-width: initial;
+
+    background: -moz-linear-gradient(
+      top,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.65) 100%
+    ); /* FF3.6+ */
+    background: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0%, rgba(0, 0, 0, 0.65)),
+      color-stop(100%, rgba(0, 0, 0, 0))
+    ); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(
+      top,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.65) 100%
+    ); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(
+      top,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.65) 100%
+    ); /* Opera 11.10+ */
+    background: -ms-linear-gradient(
+      top,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.65) 100%
+    ); /* IE10+ */
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.65) 100%
+    ); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+
     &__img {
       max-width: initial;
       width: 100%;
       max-height: 480px;
+      min-height: 430px;
       object-fit: cover;
+      position: relative;
+      z-index: -1;
+
+      @include bp(small) {
+        object-position: center 25%;
+      }
+    }
+
+    .hero__close {
+      // outline: 1px solid red;
+      position: absolute;
+      z-index: 1;
+
+      overflow: hidden;
+
+      width: 40px;
+      height: 40px;
+      right: 6%;
+      top: 6vw;
     }
   }
 </style>

@@ -5,14 +5,28 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import ProjectList from "../components/ProjectList.astro";
+import Layout from "../layouts/Layout.astro";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 );
 ---
 
-<!doctype html>
-<html lang="en">
+<Layout
+  title="Who i am?"
+  description="I’m Mikołaj Madejski. Passionate creator of media. I do designs."
+>
+  <main>
+    <article>
+      <section>
+        <ProjectList posts={posts} />
+      </section>
+    </article>
+  </main>
+</Layout>
+
+<!-- <!doctype html> -->
+<!-- <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
@@ -23,6 +37,5 @@ const posts = (await getCollection("blog")).sort(
         <ProjectList posts={posts} />
       </section>
     </main>
-    <!-- <Footer /> -->
   </body>
-</html>
+</html> -->

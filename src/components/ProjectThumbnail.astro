@@ -10,53 +10,129 @@ interface ThumbnailImage {
 }
 
 interface Props {
-  to: string;
+  slug: string;
   image: ThumbnailImage;
   title: string;
   date: Date;
   description: string;
 }
 
-const { to, image, title, date, description } = Astro.props;
+const { slug, image, title, date, description } = Astro.props;
 ---
 
-<a href={to} class="project-thumbnail outlined-image">
-  <Image
-    transition:name="hero"
-    {...image} class="project-thumbnail__background" />
+<a href={`/blog/${slug}`} class="project-thumbnail outlined-image">
+  <Image {...image} class="project-thumbnail__background" />
+  <!-- transition:name={`img-${slug}`} -->
 
   <div class="project-thumbnail__body">
-    <div class="project-thumbnail__title">{title}</div>
+    <h3 class="project-thumbnail__title display-2">{title}</h3>
     <div class="project-thumbnail__separator"></div>
-    <FormattedDate date={date} />
+    <div class="project-thumbnail__date">
+      <FormattedDate date={date} />
+    </div>
     <div class="project-thumbnail__description">{description}</div>
   </div>
 </a>
-<style>
+<style lang="scss">
+  $transition-time: 500ms;
+  $transition-timing: ease-in-out;
   .project-thumbnail {
     position: relative;
     display: block;
+    outline: 0.5px solid #fff;
+    margin: 0.5px;
+    overflow: hidden;
+
+    &:hover,
+    &:focus-visible {
+      .project-thumbnail {
+        &__background {
+          transform: scale(1.1);
+          opacity: .5;
+        }
+
+        &__body {
+          opacity: 1;
+        }
+
+        &__title {
+          transform: scale(1);
+        }
+
+        &__date {
+          transform: translateY(0);
+        }
+
+        &__description {
+          transform: translateY(0);
+        }
+      }
+    }
   }
 
   .project-thumbnail__background {
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
+    transform: scale(1);
+    transition:
+      transform $transition-time $transition-timing,
+      opacity $transition-time $transition-timing;
+  
+    opacity: 1;
   }
 
-  .project-thumbnail__body {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  .project-thumbnail {
+    &__body {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+
+      max-width: 80%;
+      margin: auto;
+
+      opacity: 0;
+      transition: opacity $transition-time $transition-timing;
+    }
+    &__title {
+      // outline: 1px solid blue;
+      transform: scale(.9);
+      // font-size: 2rem;
+      margin-bottom: 1.2rem;
+      transition: transform $transition-time $transition-timing;
+
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    &__date {
+      // outline: 1px solid blue;
+      margin-bottom: 10px;
+      transform: translateY(20px);
+      transition: transform $transition-time $transition-timing;
+    }
+    &__description {
+      // outline: 1px solid blue;
+      transform: translateY(20px);
+      transition: transform $transition-time $transition-timing;
+
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
   }
 
   .project-thumbnail__separator {
-    height: 2px;
+    height: 1px;
     width: 100px;
     background: currentColor;
+    margin-bottom: 1.75rem;
   }
 </style>
