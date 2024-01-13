@@ -2,11 +2,15 @@
 import type { CollectionEntry } from "astro:content";
 import ProjectThumbnail from "./ProjectThumbnail.astro";
 
+import { myFade } from "../components/interactions/transitions/fade";
+import { slide } from "astro:transitions";
+
 interface Props {
   posts: CollectionEntry<"blog">[];
 }
 
 const { posts } = Astro.props;
+
 ---
 
 <div class="project-list">
@@ -22,6 +26,9 @@ const { posts } = Astro.props;
             width: 720,
             height: 720,
             loading: "eager",
+          }}
+          video={{
+            src: post.data.heroVideo
           }}
           date={post.data.pubDate}
           description={post.data.description}

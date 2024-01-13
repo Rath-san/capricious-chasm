@@ -1,10 +1,11 @@
 ---
-import type { CollectionEntry } from "astro:content";
+// import type { CollectionEntry } from "astro:content";
 import HeroImage from "../components/HeroImage.astro";
 import Layout from "./Layout.astro";
 import { SITE_TITLE } from "../consts";
+// import ImageVideoSwitch from "../components/ImageVideoSwitch.astro";
 
-const { title, description, pubDate, updatedDate, heroImage, name } =
+const { title, description, pubDate, updatedDate, heroImage, heroVideo, name } =
   Astro.props;
 
 const { slug } = Astro.params;
@@ -13,40 +14,22 @@ const { slug } = Astro.params;
 <Layout title={`${SITE_TITLE}: ${title}`} description={description}>
   <main>
     <article>
-      <!-- <div class="hero-image">
-					{heroImage && <Image height={480} width={1920} src={heroImage} alt={'no alt'} class="hero-image__img" />}
-				</div> -->
       {
         heroImage && (
-          <HeroImage
-            image={{
-              src: heroImage,
-              alt: "no alt",
-              loading: "eager",
-            }}
-            id={slug}
-          />
+          <div class="hero-image__container">
+            <HeroImage
+              image={{
+                src: heroImage,
+                alt: "no alt",
+              }}
+              video={{
+                src: heroVideo,
+              }}
+              id={slug}
+            />
+          </div>
         )
       }
-
-      <!-- some sections -->
-      <!-- <div class="prose"> -->
-      <!-- <div class="title">
-							<h1>{title}</h1>
-							<div class="date">
-								<FormattedDate date={pubDate} />
-								{
-									updatedDate && (
-										<div class="last-updated-on">
-											Last updated on <FormattedDate date={updatedDate} />
-										</div>
-									)
-								}
-							</div>
-						</div> -->
-      <!-- text content -->
-      <!-- </div> -->
-
       <slot />
     </article>
   </main>

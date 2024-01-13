@@ -1,12 +1,17 @@
 ---
 import { Image } from "astro:assets";
 import FormattedDate from "../components/FormattedDate.astro";
+import ImageVideoSwitch from "../components/ImageVideoSwitch.astro";
 
 interface ThumbnailImage {
   src: string;
-  alt: string;
+  alt?: string;
   width: number;
   height: number;
+}
+
+interface ThubmnailVideo {
+  src?: string;
 }
 
 interface Props {
@@ -15,16 +20,14 @@ interface Props {
   title: string;
   date: Date;
   description: string;
+  video?: ThubmnailVideo;
 }
 
-const { slug, image, title, date, description } = Astro.props;
+const { slug, image, title, date, description, video } = Astro.props;
 ---
 
 <a href={`/blog/${slug}`} class="project-thumbnail outlined-image">
-  <Image {...image} class="project-thumbnail__background" />
-  <!-- transition:name={`img-${slug}`} -->
-
-  <div class="project-thumbnail__body">
+  <div class="project-thumbnail__body" style="opacity: 0">
     <h3 class="project-thumbnail__title display-2">{title}</h3>
     <div class="project-thumbnail__separator"></div>
     <div class="project-thumbnail__date">
@@ -32,7 +35,11 @@ const { slug, image, title, date, description } = Astro.props;
     </div>
     <div class="project-thumbnail__description">{description}</div>
   </div>
+  <div class="project-thumbnail__wrapper">
+    <ImageVideoSwitch video={video} image={{ ...image, class: "square" }} />
+  </div>
 </a>
+
 <style lang="scss">
   $transition-time: 500ms;
   $transition-timing: ease-in-out;
@@ -46,13 +53,8 @@ const { slug, image, title, date, description } = Astro.props;
     &:hover,
     &:focus-visible {
       .project-thumbnail {
-        &__background {
-          transform: scale(1.1);
-          opacity: 0.5;
-        }
-
         &__body {
-          opacity: 1;
+          opacity: 1 !important;
         }
 
         &__title {
@@ -70,19 +72,17 @@ const { slug, image, title, date, description } = Astro.props;
     }
   }
 
-  .project-thumbnail__background {
-    width: 100%;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-    transform: scale(1);
-    transition:
-      transform $transition-time $transition-timing,
-      opacity $transition-time $transition-timing;
-
-    opacity: 1;
-  }
-
   .project-thumbnail {
+    position: relative;
+
+    &__wrapper {
+      aspect-ratio: 1/1;
+      // opacity: .1;
+      // z-index: 1;
+      > * {
+        height: 100%;
+      }
+    }
     &__body {
       position: absolute;
       inset: 0;
@@ -91,12 +91,14 @@ const { slug, image, title, date, description } = Astro.props;
       justify-content: center;
       align-items: center;
       text-align: center;
+      pointer-events: none;
 
       max-width: 80%;
       margin: auto;
+      z-index: 11;
 
       @media (any-hover: hover) {
-        opacity: 0;
+        opacity: 1;
       }
 
       transition: opacity $transition-time $transition-timing;
@@ -136,12 +138,12 @@ const { slug, image, title, date, description } = Astro.props;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
-  }
 
-  .project-thumbnail__separator {
-    height: 1px;
-    width: 100px;
-    background: currentColor;
-    margin-bottom: 1.75rem;
+    &__separator {
+      height: 1px;
+      width: 100px;
+      background: currentColor;
+      margin-bottom: 1.75rem;
+    }
   }
 </style>

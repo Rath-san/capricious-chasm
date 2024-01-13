@@ -4,6 +4,9 @@ import HeroImage from "../components/HeroImage.astro";
 import Layout from "../layouts/Layout.astro";
 import { CONTACT } from "../consts";
 
+import { myFade } from "../components/interactions/transitions/fade";
+import { slide } from "astro:transitions";
+
 const title = "";
 const description = "";
 const image = {
@@ -18,10 +21,9 @@ const image = {
   <main>
     <article>
       <div class="hero-image__wrapper">
-        <div class="hero-image">
+        <div class="hero-image__container">
           <HeroImage image={image} />
         </div>
-        <!-- <div class="hero-image__gradient"></div> -->
         <div class="hero-image__deco">
           <div class="hero-image__text hero-image__hi display-1">Hi!</div>
           <div class="hero-image__content visible-large">
@@ -54,8 +56,8 @@ const image = {
           Inspired by Toy Story in childhood, I have started exploring design
           softwares for my own.
           <br />
-           I’m Apple fun. I know that the hardest thing is to make design
-          simple. But the process of designing brings so much fun!
+          I’m Apple fun. I know that the hardest thing is to make design simple.
+          But the process of designing brings so much fun!
         </p>
         <div class="footer__wrapper">
           <Footer />
@@ -74,7 +76,7 @@ const image = {
 
 <style lang="scss">
   @import "../styles/abstract/_breakpoints.scss";
-  
+
   .hero-image__deco {
     max-width: 480px;
     width: 100%;
@@ -96,11 +98,18 @@ const image = {
         margin-bottom: 100px;
       }
 
-      > * {
-        // outline: 1px solid green;
-        grid-column: 1 / 1;
-        grid-row: 1 / 1;
-      }
+      // > * {
+      //   // outline: 1px solid green;
+      //   grid-column: 1 / 1;
+      //   grid-row: 1 / 1;
+      // }
+    }
+
+    &__container,
+    &__deco {
+      // outline: 1px solid green;
+      grid-column: 1 / 1;
+      grid-row: 1 / 1;
     }
 
     &__deco {

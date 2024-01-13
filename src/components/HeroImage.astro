@@ -1,8 +1,11 @@
 ---
 import { Image } from "astro:assets";
 import LottieAnimation from "astro-integration-lottie/Lottie.astro";
+import ImageVideoSwitch from "./ImageVideoSwitch.astro";
 
-const { image, id } = Astro.props;
+// import { myFade } from "../components/interactions/transitions/fade";
+
+const { image, id, video } = Astro.props;
 // console.log(image);
 ---
 
@@ -31,14 +34,18 @@ const { image, id } = Astro.props;
   </a>
   {
     (
-      <Image
-        alt={"no alt"}
-        width={1920}
-        height={480}
-        loading="eager"
-        {...image}
-        class="hero-image__img"
+      <ImageVideoSwitch
+        video={video}
+        image={{ ...image, width: 1920, height: 480, loading: "eager" }}
       />
+      // <Image
+      //   alt={"no alt"}
+      //   width={1920}
+      //   height={480}
+      //   loading="eager"
+      //   {...image}
+      //   class="hero-image__img"
+      // />
       // transition:name={`img-${id}`}
     )
   }
@@ -113,8 +120,9 @@ const { image, id } = Astro.props;
     &__img {
       max-width: initial;
       width: 100%;
-      max-height: 480px;
-      min-height: 430px;
+      // max-height: 480px;
+      // min-height: 430px;
+      height: 480px;
       object-fit: cover;
       position: relative;
       z-index: -1;
@@ -127,7 +135,7 @@ const { image, id } = Astro.props;
     .hero__close {
       // outline: 1px solid red;
       position: absolute;
-      z-index: 1;
+      z-index: 10;
 
       overflow: hidden;
 

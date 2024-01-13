@@ -2,7 +2,7 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import "../styles/index.scss";
-// import { ViewTransitions } from "astro:transitions";
+import { ViewTransitions } from "astro:transitions";
 import Navbar from "../components/navbar/Navbar.astro";
 import { SITE_TITLE } from "../consts";
 
@@ -56,7 +56,8 @@ const {
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
   </head>
   <body>
-    <Navbar transition:animate="none" />
+    <div class="cursor"></div>
+    <Navbar transition:animate="none"/>
     <slot />
     <!-- <div class="container"> -->
 
@@ -66,94 +67,87 @@ const {
 
     <!-- <LottieAnimation src="/assets/animations/logo_loading.json" autoplay="visible" player='full' /> -->
     <!-- </div> -->
-    <div class="cursor"></div>
-  </body>
-</html>
+    <script>
+      window.addEventListener("astro:page-load", () => {
+        console.log("after swap");
+        console.log(window.astroLottie);
+      });
 
-<script is:inline>
-  window.addEventListener("astro:page-load", () => {
-    console.log("after swap");
-    console.log(window.astroLottie);
-  });
+      const handleCursor = () => {
+        const cursor = document.querySelector(".cursor");
 
-  // window.addEventListener("astro:after-swap", () => {
+        let cursorInitialized = false;
 
-  //   const setupLottieAnimations = (astroLottie) => {
-  //     const closeAnimation = astroLottie.getAnimation("close-hover");
+        document.addEventListener("mousemove", (e) => {
+          if (!cursorInitialized) {
+            cursor?.classList.add("active");
+            cursorInitialized = true;
+          }
 
-  //     if (closeAnimation?.isLoaded) {
-  //       closeAnimation.container.addEventListener("mouseenter", () => {
-  //         closeAnimation.player.setDirection(1);
-  //         closeAnimation.player.play();
-  //       });
+          cursor?.setAttribute(
+            "style",
+            "top: " + (e.pageY - 20) + "px; left: " + (e.pageX - 20) + "px;"
+          );
+        });
+      };
 
-  //       closeAnimation.container.addEventListener("mouseleave", () => {
-  //         closeAnimation.player.setDirection(-1);
-  //         closeAnimation.player.play();
-  //       });
-  //     }
-  //   };
+      handleCursor();
 
-  //   document.addEventListener("astro:page-load", () => {
-  //     window.astroLottie && setupLottieAnimations(window.astroLottie);
-  //   });
+      document.addEventListener("astro:after-swap", handleCursor);
 
-  //   document.addEventListener("astro-lottie-loaded", (e) => {
-  //     setupLottieAnimations(e.detail);
-  //   });
-  // })
+      // const setupLottieAnimations = (astroLottie) => {
+      //   const closeAnimation = astroLottie.getAnimation("close-hover");
 
-  const cursor = document.querySelector(".cursor");
+      //   if (closeAnimation?.isLoaded) {
+      //     closeAnimation.container.addEventListener("mouseenter", () => {
+      //       closeAnimation.player.setDirection(1);
+      //       closeAnimation.player.play();
+      //     });
 
-  let cursorInitialized = false;
+      //     closeAnimation.container.addEventListener("mouseleave", () => {
+      //       closeAnimation.player.setDirection(-1);
+      //       closeAnimation.player.play();
+      //     });
+      //   }
+      // };
 
-  document.addEventListener("mousemove", (e) => {
-    if (!cursorInitialized) {
-      cursor.classList.add("active");
-      cursorInitialized = true;
-    }
+      // document.addEventListener("astro:page-load", () => {
+      //   window.astroLottie && setupLottieAnimations(window.astroLottie);
+      // });
 
-    cursor.setAttribute(
-      "style",
-      "top: " + (e.pageY - 20) + "px; left: " + (e.pageX - 20) + "px;"
-    );
-  });
+      // document.addEventListener("astro-lottie-loaded", (e) => {
+      //   setupLottieAnimations(e.detail);
+      // });
+    </script>
 
-  // document.addEventListener("click", () => {
-  //   cursor.classList.add("expand");
+    <style lang="scss">
+      .cursor {
+        width: 40px;
+        height: 40px;
+        border: 1px solid white;
+        border-radius: 50%;
+        position: absolute;
+        // transition-duration: 200ms;
+        // transition-timing-function: ease-out;
+        transition: all 200ms ease-out;
+        pointer-events: none;
 
-  //   setTimeout(() => {
-  //     cursor.classList.remove("expand");
-  //   }, 500);
-  // });
-</script>
+        z-index: 1002;
 
-<style lang="scss">
-  .cursor {
-    width: 40px;
-    height: 40px;
-    border: 1px solid white;
-    border-radius: 50%;
-    position: absolute;
-    // transition-duration: 200ms;
-    // transition-timing-function: ease-out;
-    transition: all 200ms ease-out;
-    pointer-events: none;
+        opacity: 0;
+        transition: opacity 250ms ease-in;
 
-    z-index: 1000;
+        &.active {
+          opacity: 1;
+        }
+      }
+    </style>
 
-    opacity: 0;
-    transition: opacity 250ms ease-in;
-
-    &.active {
-      opacity: 1;
-    }
-  }
-</style>
-
-<!-- document.querySelector("#play-button").addEventListener("click", () => {
+    <!-- document.querySelector("#play-button").addEventListener("click", () => {
   const animation = astroLottie.getAnimation("my-animation");
   if (animation && animation.isLoaded) {
     animation.player.play();
   }
 }); -->
+  </body>
+</html>

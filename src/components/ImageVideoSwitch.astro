@@ -1,0 +1,130 @@
+---
+import { Image } from "astro:assets";
+import FormattedDate from "./FormattedDate.astro";
+
+interface ThumbnailImage {
+  src: string;
+  alt?: string;
+  width: number;
+  height: number;
+  class?: string;
+}
+
+interface ThubmnailVideo {
+  src?: string;
+  type?: string;
+}
+
+interface Props {
+  image: ThumbnailImage;
+  video?: ThubmnailVideo;
+}
+
+const { image, video } = Astro.props;
+---
+
+<div class="image-video-switch">
+  {
+    video?.src && (
+      <video
+        class="image-video-switch__video"
+        playsinline
+        webkit-playsinline
+        muted
+      >
+        <source type="video/mp4" {...video} />
+      </video>
+    )
+  }
+
+  <Image
+    alt="no alt"
+    {...image}
+    class:list={image.class}
+    class="image-video-switch__image"
+  />
+
+  <script>
+    const tile = Array.from(
+      document.querySelectorAll(".image-video-switch")
+    ) as HTMLLinkElement[];
+
+    const vietVideoFromTile = (tile: HTMLLinkElement) =>
+      tile.querySelector("video");
+
+    tile.forEach((tile) => {
+      const video = vietVideoFromTile(tile);
+
+      if (!video) return;
+
+      tile?.addEventListener("mouseenter", () => {
+        video.play();
+      });
+
+      tile?.addEventListener("mouseleave", () => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    });
+  </script>
+
+  <style lang="scss">
+    $transition-time: 500ms;
+    $transition-timing: ease-in-out;
+
+    .image-video-switch {
+      position: relative;
+      display: block;
+      outline: 0.5px solid #fff;
+      margin: 0.5px;
+      overflow: hidden;
+
+      &:hover,
+      &:focus-visible {
+        .image-video-switch {
+          &__image {
+            // transform: scale(1.1);
+            opacity: 0.5;
+          }
+
+          &__video {
+            & + .image-video-switch__image {
+              opacity: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .image-video-switch {
+      &__image {
+        width: 100%;
+        // aspect-ratio: 1/1;
+        object-fit: cover;
+        transform: scale(1);
+        transition:
+          transform $transition-time $transition-timing,
+          opacity $transition-time $transition-timing;
+
+        opacity: 1;
+        z-index: 1;
+        position: relative;
+        &.square {
+          aspect-ratio: 1/1;
+      }
+      }
+
+      &__video {
+        // aspect-ratio: 1/1;
+        opacity: 1;
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      
+    }
+  </style>
+</div>
