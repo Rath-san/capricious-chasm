@@ -16,7 +16,7 @@ const { posts } = Astro.props;
 <div class="project-list">
   {
     posts.map((post) => (
-      <div class="project-list__item">
+      <div class="project-list__item" data-slide>
         <ProjectThumbnail
           slug={post.slug}
           title={post.data.title}

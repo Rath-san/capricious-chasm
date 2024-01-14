@@ -286,8 +286,10 @@ hr {
 }
 
 [data-barba="container"] {
-
-  $animation-duration: .75s;
+  $animation-duration: 1s;
+  $animation-offset-timing: 0.1s;
+  $animation-timing-fn-in: cubic-bezier(0, 0, 0, 1);
+  $animation-timing-fn-out: cubic-bezier(0, 0, 0, 1);
 
   width: 100%;
 
@@ -298,20 +300,32 @@ hr {
 
   &.next {
     // outline: 5px solid red;
-    transition: all $animation-duration ease-in-out;
-    transform: translateX(100%);
+    pointer-events: none;
+
+    [data-slide] {
+      transition: all $animation-duration $animation-timing-fn-in;
+      transition-delay: calc(var(--timing-offset) * $animation-offset-timing);
+      transform: translateX(100vw);
+    }
 
     &.entering {
-      transform: translateX(0%);
+      [data-slide] {
+        transform: translateX(0);
+      }
     }
   }
 
   &.current {
     // outline: 5px solid cyan;
-    transform: translateX(0%);
+    [data-slide] {
+      transform: translateX(0%);
+    }
     &.leaving {
-      transition: all $animation-duration ease-in-out;
-      transform: translateX(-100%);
+      [data-slide] {
+        transition: all $animation-duration $animation-timing-fn-out;
+        transition-delay: calc(var(--timing-offset) * $animation-offset-timing);
+        transform: translateX(-100vw);
+      }
     }
   }
 }
@@ -694,7 +708,7 @@ header {
   }
 
   &.animating-click {
-    animation: .5s easeout-large ease-in;
+    animation: 0.5s easeout-large ease-in;
     // &--in {
     //   outline-offset: 0;
     //   opacity: 1;

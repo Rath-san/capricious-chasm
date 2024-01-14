@@ -10,6 +10,7 @@ import BaseBlogImage from "/src/components/BaseBlogImage.astro";
 import BaseBlogHeadTile from "/src/components/BaseBlogHeadTile.astro";
 
 <BaseBlogHeadTile
+  index="1"
   title={frontmatter.title}
   date={frontmatter.pubDate}
   text="There are many variations of passages of Lorem Ipsum available, but the
@@ -17,8 +18,8 @@ import BaseBlogHeadTile from "/src/components/BaseBlogHeadTile.astro";
     randomised words which don't look even slightly believable."
 />
 
-<BaseBlogImage src="/assets/images/first/HUD-1.jpeg" alt="test" />
-<BaseBlogImage src="/assets/images/first/HUD-2.jpeg" alt="test" />
-<BaseBlogImage src="/assets/images/first/HUD-1.jpeg" alt="test" />
-<BaseBlogImage src="/assets/images/first/HUD-2.jpeg" alt="test" />
-<BaseBlogImage src="/assets/images/first/HUD-1.jpeg" alt="test" />
+<BaseBlogImage index="1" src="/assets/posts/first/image/HUD-1.jpeg" alt="test" />
+<BaseBlogImage index="2" src="/assets/posts/first/image/HUD-2.jpeg" alt="test" />
+<BaseBlogImage index="2" src="/assets/posts/first/image/HUD-1.jpeg" alt="test" />
+<BaseBlogImage index="2" src="/assets/posts/first/image/HUD-2.jpeg" alt="test" />
+<BaseBlogImage index="3" src="/assets/posts/first/image/HUD-1.jpeg" alt="test" />

@@ -85,7 +85,7 @@ const {
         barba.wrapper.classList.remove("is-animating");
       });
 
-      const animationDuration = .75;
+      const animationDuration = 1.75;
 
       barba.init({
         transitions: [
@@ -113,7 +113,7 @@ const {
               // console.log(data.next.container);
               setTimeout(() => {
                 data.next.container.classList.add("entering");
-              }, 1);
+              }, 75);
               // data.next.container.classList.remove();
               return gsap.from(data.next.container, {
                 //   x: "100vw",
