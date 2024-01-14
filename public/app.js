@@ -30,10 +30,10 @@ import gsap from "gsap";
 //   barba.wrapper.classList.remove("is-animating");
 // });
 
-console.log(barba);
+// console.log(barba);
 
 export default () => {
-    console.log('init');
+    // console.log('init');
   barba.init({
     transitions: [
       {

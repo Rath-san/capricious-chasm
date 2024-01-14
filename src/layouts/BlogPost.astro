@@ -16,7 +16,11 @@ const { slug } = Astro.params;
     <article>
       {
         heroImage && (
-          <div class="hero-image__container" data-slide style="--timing-offset: 0;">
+          <div
+            class="hero-image__container line line-top"
+            data-slide
+            style="--timing-offset: 0;"
+          >
             <HeroImage
               image={{
                 src: heroImage,
@@ -30,7 +34,9 @@ const { slug } = Astro.params;
           </div>
         )
       }
-      <slot />
+      <div data-slide style={`--timing-offset: 0;`} class="line line-top">
+        <slot />
+      </div>
     </article>
   </main>
 </Layout>

@@ -2,13 +2,13 @@
 
 .hero-image {
   position: relative;
-  &::after {
-    content: "";
-    inset: 0 0 100% 0;
-    border-top: 0.5px solid var(--accent);
-    position: absolute;
-    z-index: 1;
-  }
+  // &::after {
+  //   content: "";
+  //   inset: 0 0 100% 0;
+  //   // border-top: 0.5px solid var(--accent);
+  //   position: absolute;
+  //   z-index: 1;
+  // }
 }
 
 .blog__grid {
@@ -25,15 +25,15 @@
 
     position: relative;
 
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      pointer-events: none;
+    // &::before,
+    // &::after {
+    //   content: "";
+    //   position: absolute;
+    //   pointer-events: none;
 
-      border: 1px solid var(--accent);
-      inset: -0.5px;
-    }
+    //   // border: 1px solid var(--accent);
+    //   inset: -0.5px;
+    // }
 
     &:first-child {
       padding: 10%;

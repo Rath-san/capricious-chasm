@@ -9,7 +9,7 @@ interface Props {
 const { title, date, text, index } = Astro.props;
 ---
 
-<div class="head__wrapper" data-slide style={`--timing-offset: ${index || 0};`}>
+<div class="head__wrapper line line-right" data-slide style={`--timing-offset: ${index || 0};`}>
   <div class="head">
     <h1 class="title display-1">
       {title}

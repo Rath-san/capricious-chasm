@@ -1,0 +1,54 @@
+// .line-grid {
+//     position: relative;
+
+//     &::after,
+//     &::before {
+//         content: "";
+//         position: absolute;
+//         inset: 0;
+//         outline: 1px solid red;
+//         z-index: 1;
+//     }
+// }
+
+%test {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #fff;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.line {
+  position: relative;
+}
+
+.line-top {
+  &::before {
+    @extend %test;
+    height: 1px;
+    inset: 0;
+    top: 0;
+    width: 100vw;
+  }
+}
+
+.line-bottom {
+  &::before {
+    @extend %test;
+    height: 1px;
+    inset: 0;
+    bottom: 0;
+  }
+}
+
+.line-right {
+  &::after {
+    @extend %test;
+    // height: 1px;
+    width: 1px;
+    inset: 0;
+    left: 100%;
+  }
+}

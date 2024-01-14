@@ -10,31 +10,52 @@ interface Props {
 }
 
 const { posts } = Astro.props;
-
 ---
 
 <div class="project-list">
   {
-    posts.map((post) => (
-      <div class="project-list__item" data-slide>
-        <ProjectThumbnail
-          slug={post.slug}
-          title={post.data.title}
-          image={{
-            src: post.data.heroImage ?? "placeholder",
-            alt: "test",
-            width: 720,
-            height: 720,
-            loading: "eager",
-          }}
-          video={{
-            src: post.data.heroVideo
-          }}
-          date={post.data.pubDate}
-          description={post.data.description}
-        />
-      </div>
-    ))
+    posts.map((post, index) => {
+      // console.log(index);
+
+      return (
+        <div class="project-list__item line line-top line-right" data-slide>
+          <ProjectThumbnail
+            slug={post.slug}
+            title={post.data.title}
+            image={{
+              src: post.data.heroImage ?? "placeholder",
+              alt: "test",
+              width: 720,
+              height: 720,
+              loading: "eager",
+            }}
+            video={{
+              src: post.data.heroVideo,
+            }}
+            date={post.data.pubDate}
+            description={post.data.description}
+          />
+        </div>
+      );
+    })
   }
 </div>
 
+<script>
+  const items: HTMLDivElement[] = Array.from(
+    document.querySelectorAll(".project-list__item")
+  );
+
+  let row = -1;
+  let itemsPerRow = 3;
+  items.forEach((item, index) => {
+    const inRow = index % itemsPerRow;
+
+    if (inRow < 1) {
+      // item.classList.add("line")
+      row += 1;
+    }
+
+    item.style.setProperty("--timing-offset", row.toString());
+  });
+</script>

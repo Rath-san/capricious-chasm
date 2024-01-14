@@ -62,27 +62,35 @@ const {
     <div class="cursor"></div>
     <Navbar />
     <slot />
-    <!-- <div class="container"> -->
-
-    <!-- <LottieAnimation src="/assets/animations/icon_info_click.json" autoplay="visible" player='light' /> -->
-    <!-- <LottieAnimation src="/assets/animations/icon_info_hover-back.json" autoplay="visible" player='light' /> -->
-    <!-- <LottieAnimation src="/assets/animations/icon_info_hover.json" autoplay="visible" player='light' /> -->
-
-    <!-- <LottieAnimation src="/assets/animations/logo_loading.json" autoplay="visible" player='full' /> -->
-    <!-- </div> -->
-    <!-- <script type="module" src="/app.js"/> -->
 
     <script>
       import barba from "@barba/core";
       import gsap from "gsap";
 
-      console.log(barba, gsap);
+      const handleHref = () => {
+        // console.log("handleHref");
+
+        const links = Array.from(document.querySelectorAll("a"));
+        const currentHref = window.location.href;
+
+        links.forEach((a) => {
+          if (a.href == currentHref) {
+            a.classList.add("events-disabled");
+          } else {
+            a.classList.remove("events-disabled");
+          }
+        });
+      };
+      handleHref();
+
+      // console.log(barba, gsap);
 
       barba.hooks.before(() => {
         barba.wrapper.classList.add("is-animating");
       });
       barba.hooks.after(() => {
         barba.wrapper.classList.remove("is-animating");
+        handleHref();
       });
 
       const animationDuration = 1.75;
@@ -136,7 +144,7 @@ const {
         let cursorInitialized = false;
 
         cursor.addEventListener("animationend", (event) => {
-          console.log('transitionend');
+          // console.log("transitionend");
           cursor.classList.remove("animating-click");
         });
 
@@ -153,7 +161,7 @@ const {
         });
 
         document.addEventListener("click", (e) => {
-          console.log("click");
+          // console.log("click");
 
           cursor.classList.add("is-animating", "animating-click");
 
