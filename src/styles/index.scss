@@ -235,7 +235,7 @@ hr {
 .is-animating {
   pointer-events: none;
   & > * {
-    position: absolute;
+    position: fixed;
   }
 }
 
