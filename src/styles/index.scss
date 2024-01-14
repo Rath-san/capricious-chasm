@@ -240,10 +240,10 @@ hr {
 }
 
 [data-barba="container"] {
-  $animation-duration: 1s;
+  $animation-duration: 1.25s;
   $animation-offset-timing: 0.1s;
-  $animation-timing-fn-in: cubic-bezier(0, 0, 0, 1);
-  $animation-timing-fn-out: cubic-bezier(0, 0, 0, 1);
+  $animation-timing-fn-in: cubic-bezier(1, 0, .3, 1);
+  $animation-timing-fn-out: cubic-bezier(1, 0, .3, 1);
 
   width: 100%;
 
