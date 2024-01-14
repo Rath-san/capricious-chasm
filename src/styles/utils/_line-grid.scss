@@ -43,6 +43,15 @@
   }
 }
 
+.line-bottom--after {
+  &::after {
+    @extend %test;
+    height: 1px;
+    inset: 0;
+    top: 100%;
+  }
+}
+
 .line-right {
   &::after {
     @extend %test;
