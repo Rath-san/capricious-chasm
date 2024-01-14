@@ -11,7 +11,7 @@ const posts = (await getCollection("blog")).sort(
 <Layout
   description="I’m Mikołaj Madejski. Passionate creator of media. I do designs."
 >
-  <main>
+  <main data-barba="container" data-barba-namespace="opacity-transition">
     <article>
       <section>
         <ProjectList posts={posts} />
@@ -19,3 +19,7 @@ const posts = (await getCollection("blog")).sort(
     </article>
   </main>
 </Layout>
+
+<script>
+
+</script>

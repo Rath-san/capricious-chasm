@@ -13,9 +13,11 @@
     "@astrojs/mdx": "^1.0.3",
     "@astrojs/rss": "^3.0.0",
     "@astrojs/sitemap": "^3.0.0",
+    "@barba/core": "^2.9.7",
     "astro": "^3.6.4",
     "astro-auto-import": "^0.4.2",
     "astro-integration-lottie": "^0.2.3",
+    "gsap": "^3.12.4",
     "lottie-web": "^5.12.2"
   },
   "devDependencies": {

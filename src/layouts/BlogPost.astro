@@ -12,7 +12,7 @@ const { slug } = Astro.params;
 ---
 
 <Layout title={`${SITE_TITLE}: ${title}`} description={description}>
-  <main>
+  <main data-barba="container" data-barba-namespace="opacity-transition">
     <article>
       {
         heroImage && (

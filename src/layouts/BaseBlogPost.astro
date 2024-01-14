@@ -8,15 +8,3 @@ const { slug } = Astro.params;
 <div class="blog__base prose">
   <slot />
 </div>
-
-<style lang="scss">
-  @import "../styles/abstract/_breakpoints.scss";
-
-  .blog__base {
-    margin-top: 50px;
-
-    @include bp(small) {
-      margin-top: 100px;
-    }
-  }
-</style>

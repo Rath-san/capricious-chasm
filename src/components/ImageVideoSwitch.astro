@@ -31,6 +31,7 @@ const { image, video } = Astro.props;
         playsinline
         webkit-playsinline
         muted
+        loop
       >
         <source type="video/mp4" {...video} />
       </video>
@@ -45,86 +46,40 @@ const { image, video } = Astro.props;
   />
 
   <script>
-    const tile = Array.from(
-      document.querySelectorAll(".image-video-switch")
-    ) as HTMLLinkElement[];
+    import barba from "@barba/core";
 
-    const vietVideoFromTile = (tile: HTMLLinkElement) =>
-      tile.querySelector("video");
+    const init = () => {
+      const imageVideos = Array.from(
+        document.querySelectorAll(".image-video-switch")
+      ) as HTMLLinkElement[];
 
-    tile.forEach((tile) => {
-      const video = vietVideoFromTile(tile);
+      if (!imageVideos.length) return;
 
-      if (!video) return;
+      const vietVideoFromTile = (imageVideoElement: HTMLLinkElement) =>
+        imageVideoElement.querySelector("video");
 
-      tile?.addEventListener("mouseenter", () => {
-        video.play();
+      imageVideos.forEach((imageVideo) => {
+        const video = vietVideoFromTile(imageVideo);
+
+        if (!video) return;
+
+        imageVideo?.addEventListener("mouseenter", () => {
+          video.play();
+        });
+
+        imageVideo?.addEventListener("mouseleave", () => {
+          video.pause();
+          video.currentTime = 0;
+        });
       });
+    };
 
-      tile?.addEventListener("mouseleave", () => {
-        video.pause();
-        video.currentTime = 0;
-      });
+    init();
+
+    barba.hooks.after(() => {
+      console.log("after");
+      init();
     });
   </script>
 
-  <style lang="scss">
-    $transition-time: 500ms;
-    $transition-timing: ease-in-out;
-
-    .image-video-switch {
-      position: relative;
-      display: block;
-      outline: 0.5px solid #fff;
-      margin: 0.5px;
-      overflow: hidden;
-
-      &:hover,
-      &:focus-visible {
-        .image-video-switch {
-          &__image {
-            // transform: scale(1.1);
-            opacity: 0.5;
-          }
-
-          &__video {
-            & + .image-video-switch__image {
-              opacity: 0;
-            }
-          }
-        }
-      }
-    }
-
-    .image-video-switch {
-      &__image {
-        width: 100%;
-        // aspect-ratio: 1/1;
-        object-fit: cover;
-        transform: scale(1);
-        transition:
-          transform $transition-time $transition-timing,
-          opacity $transition-time $transition-timing;
-
-        opacity: 1;
-        z-index: 1;
-        position: relative;
-        &.square {
-          aspect-ratio: 1/1;
-      }
-      }
-
-      &__video {
-        // aspect-ratio: 1/1;
-        opacity: 1;
-        position: absolute;
-        inset: 0;
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-      }
-
-      
-    }
-  </style>
 </div>

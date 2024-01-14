@@ -54,10 +54,13 @@ const {
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+    <!-- <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script> -->
+    <!-- <script is:inline src="https://unpkg.com/@barba/core"></script> -->
   </head>
-  <body>
+  <body data-barba="wrapper">
     <div class="cursor"></div>
-    <Navbar transition:animate="none"/>
+    <Navbar />
     <slot />
     <!-- <div class="container"> -->
 
@@ -67,16 +70,75 @@ const {
 
     <!-- <LottieAnimation src="/assets/animations/logo_loading.json" autoplay="visible" player='full' /> -->
     <!-- </div> -->
+    <!-- <script type="module" src="/app.js"/> -->
+
     <script>
-      window.addEventListener("astro:page-load", () => {
-        console.log("after swap");
-        console.log(window.astroLottie);
+      import barba from "@barba/core";
+      import gsap from "gsap";
+
+      console.log(barba, gsap);
+
+      barba.hooks.before(() => {
+        barba.wrapper.classList.add("is-animating");
+      });
+      barba.hooks.after(() => {
+        barba.wrapper.classList.remove("is-animating");
+      });
+
+      const animationDuration = .75;
+
+      barba.init({
+        transitions: [
+          {
+            name: "opacity-transition",
+            sync: true,
+            before(data) {
+              data.next.container.classList.add("next");
+            },
+            leave(data) {
+              // data.next.container.classList.add("enter");
+              // console.log(data.current.container);
+              data.current.container.classList.add("leaving");
+              // data.next.container.classList.remove("enter");
+              return gsap.to(data.current.container, {
+                // x: "-100vw",
+                duration: animationDuration,
+              });
+            },
+            // afterLeave(data) {},
+            beforeEnter(data) {
+              data.current.container.classList.add("current", "fixed");
+            },
+            enter(data) {
+              // console.log(data.next.container);
+              setTimeout(() => {
+                data.next.container.classList.add("entering");
+              }, 1);
+              // data.next.container.classList.remove();
+              return gsap.from(data.next.container, {
+                //   x: "100vw",
+                duration: animationDuration,
+              });
+            },
+            afterEnter(data) {
+              data.next.container.classList.remove("entering", "next");
+              data.next.container.classList.remove("leaving", "current");
+            },
+          },
+        ],
       });
 
       const handleCursor = () => {
         const cursor = document.querySelector(".cursor");
 
+        if (!cursor) return;
+
         let cursorInitialized = false;
+
+        cursor.addEventListener("animationend", (event) => {
+          console.log('transitionend');
+          cursor.classList.remove("animating-click");
+        });
 
         document.addEventListener("mousemove", (e) => {
           if (!cursorInitialized) {
@@ -89,59 +151,55 @@ const {
             "top: " + (e.pageY - 20) + "px; left: " + (e.pageX - 20) + "px;"
           );
         });
+
+        document.addEventListener("click", (e) => {
+          console.log("click");
+
+          cursor.classList.add("is-animating", "animating-click");
+
+          // if (!cursorInitialized) {
+          //   cursor?.classList.add("active");
+          //   cursorInitialized = true;
+          // }
+
+          // cursor?.setAttribute(
+          //   "style",
+          //   "top: " + (e.pageY - 20) + "px; left: " + (e.pageX - 20) + "px;"
+          // );
+        });
       };
 
       handleCursor();
 
-      document.addEventListener("astro:after-swap", handleCursor);
+      // console.log("hello world", window.barba);
+      // console.log("hello world", window.gsap);
 
-      // const setupLottieAnimations = (astroLottie) => {
-      //   const closeAnimation = astroLottie.getAnimation("close-hover");
+      // const barba = window.barba;
+      // const gsap = window.gsap;
 
-      //   if (closeAnimation?.isLoaded) {
-      //     closeAnimation.container.addEventListener("mouseenter", () => {
-      //       closeAnimation.player.setDirection(1);
-      //       closeAnimation.player.play();
-      //     });
-
-      //     closeAnimation.container.addEventListener("mouseleave", () => {
-      //       closeAnimation.player.setDirection(-1);
-      //       closeAnimation.player.play();
-      //     });
-      //   }
-      // };
-
-      // document.addEventListener("astro:page-load", () => {
-      //   window.astroLottie && setupLottieAnimations(window.astroLottie);
-      // });
-
-      // document.addEventListener("astro-lottie-loaded", (e) => {
-      //   setupLottieAnimations(e.detail);
+      // barba.init({
+      //   debug: true,
+      //   transitions: [
+      //     {
+      //       name: "opacity-transition",
+      //       sync: true,
+      //       leave(data) {
+      //         data.current.container.classList.add("fixed");
+      //         return gsap.to(data.current.container, {
+      //           x: "-100vw",
+      //           duration: 2,
+      //         });
+      //       },
+      //       enter(data) {
+      //         return gsap.from(data.next.container, {
+      //           x: "100vw",
+      //           duration: 2,
+      //         });
+      //       },
+      //     },
+      //   ],
       // });
     </script>
-
-    <style lang="scss">
-      .cursor {
-        width: 40px;
-        height: 40px;
-        border: 1px solid white;
-        border-radius: 50%;
-        position: absolute;
-        // transition-duration: 200ms;
-        // transition-timing-function: ease-out;
-        transition: all 200ms ease-out;
-        pointer-events: none;
-
-        z-index: 1002;
-
-        opacity: 0;
-        transition: opacity 250ms ease-in;
-
-        &.active {
-          opacity: 1;
-        }
-      }
-    </style>
 
     <!-- document.querySelector("#play-button").addEventListener("click", () => {
   const animation = astroLottie.getAnimation("my-animation");
