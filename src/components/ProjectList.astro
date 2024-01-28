@@ -18,7 +18,7 @@ const { posts } = Astro.props;
       // console.log(index);
 
       return (
-        <div class="project-list__item line line-top line-right" data-slide>
+        <div class:list={["conjoined-height-grid__element project-list__item line line-right" ]} data-slide>
           <ProjectThumbnail
             slug={post.slug}
             title={post.data.title}

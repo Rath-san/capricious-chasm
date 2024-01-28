@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import FormattedDate from "./FormattedDate.astro";
 
 interface ThumbnailImage {
   src: string;
@@ -18,12 +17,14 @@ interface ThubmnailVideo {
 interface Props {
   image: ThumbnailImage;
   video?: ThubmnailVideo;
+  noEvents?: boolean;
 }
 
-const { image, video } = Astro.props;
+const { image, video, noEvents } = Astro.props;
 ---
 
-<div class="image-video-switch">
+<!-- class="image-video-switch" -->
+<div class:list={["image-video-switch", { "events-none": noEvents }]}>
   {
     video?.src && (
       <video
@@ -81,5 +82,4 @@ const { image, video } = Astro.props;
       init();
     });
   </script>
-
 </div>

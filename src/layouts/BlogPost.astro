@@ -17,7 +17,7 @@ const { slug } = Astro.params;
       {
         heroImage && (
           <div
-            class="hero-image__container line line-top"
+            class="hero-image__container line line-top conjoined-height-grid__element"
             data-slide
             style="--timing-offset: 0;"
           >
@@ -25,6 +25,7 @@ const { slug } = Astro.params;
               image={{
                 src: heroImage,
                 alt: "no alt",
+                height: 1000
               }}
               video={{
                 src: heroVideo,

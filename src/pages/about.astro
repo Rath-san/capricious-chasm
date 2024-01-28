@@ -12,6 +12,7 @@ const description = "";
 const image = {
   src: "/assets/images/mikolaj_madejski.jpg",
   alt: "",
+  height: "1000"
 };
 ---
 
@@ -20,9 +21,9 @@ const image = {
 >
   <main data-barba="container" data-barba-namespace="opacity-transition">
     <article>
-      <div class="hero-image__wrapper line line-top line-bottom--after" data-slide style="--timing-offset: 0;">
-        <div class="hero-image__container">
-          <HeroImage image={image} />
+      <div class=" hero-image__wrapper line line-top line-bottom--after" data-slide style="--timing-offset: 0;">
+        <div class="hero-image__container conjoined-height-grid__element">
+          <HeroImage image={image} noEvents />
         </div>
         <div class="hero-image__deco">
           <div class="hero-image__text hero-image__hi display-1">Hi!</div>

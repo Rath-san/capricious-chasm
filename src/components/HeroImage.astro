@@ -5,7 +5,7 @@ import ImageVideoSwitch from "./ImageVideoSwitch.astro";
 
 // import { myFade } from "../components/interactions/transitions/fade";
 
-const { image, id, video } = Astro.props;
+const { image, id, video, noEvents } = Astro.props;
 // console.log(image);
 ---
 
@@ -36,7 +36,8 @@ const { image, id, video } = Astro.props;
     (
       <ImageVideoSwitch
         video={video}
-        image={{ ...image, width: 1920, height: 480, loading: "eager" }}
+        image={{ ...image, width: 1920, height: 1000, loading: "eager" }}
+        noEvents={!video?.src}
       />
       // <Image
       //   alt={"no alt"}
