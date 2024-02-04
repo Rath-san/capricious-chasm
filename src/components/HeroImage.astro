@@ -1,91 +1,88 @@
 ---
-import { Image } from "astro:assets";
-import LottieAnimation from "astro-integration-lottie/Lottie.astro";
 import ImageVideoSwitch from "./ImageVideoSwitch.astro";
 
-// import { myFade } from "../components/interactions/transitions/fade";
-
 const { image, id, video, noEvents } = Astro.props;
-// console.log(image);
 ---
 
 <div class="hero-image">
   <a href="/" class="hero__close">
-    <!-- <LottieAnimation
-      id="close-click"
-      src="/assets/animations/icon_exit_click.json"
-      autoplay={false}
-      player="light"
-      loop={false}
-    /> -->
-    <!-- <LottieAnimation
-      id="close-hover-off"
-      src="/assets/animations/icon_exit_hover-back.json"
-      autoplay="visible"
-      player="light"
-    /> -->
-    <LottieAnimation
-      id="close-hover"
-      src="/assets/animations/icon_exit_hover.json"
-      autoplay={false}
-      player="light"
-      loop={false}
-    />
+    <div
+      id="close"
+      data-lottie-data={JSON.stringify({
+        id: "close",
+        src: "/assets/animations/close.json",
+        autoplay: false,
+        player: "light",
+        loop: false,
+      })}
+    >
+    </div>
   </a>
-  {
-    (
-      <ImageVideoSwitch
-        video={video}
-        image={{ ...image, width: 1920, height: 1000, loading: "eager" }}
-        noEvents={!video?.src}
-      />
-      // <Image
-      //   alt={"no alt"}
-      //   width={1920}
-      //   height={480}
-      //   loading="eager"
-      //   {...image}
-      //   class="hero-image__img"
-      // />
-      // transition:name={`img-${id}`}
-    )
-  }
+  <ImageVideoSwitch
+    video={video}
+    image={{ ...image, width: 1920, height: 1000, loading: "eager" }}
+    noEvents={!video?.src}
+  />
 </div>
 
 <script>
-  // import barba from "@barba/core";
+  import barba from "@barba/core";
+  import Lottie from "lottie-web";
+
+  const closeAnimationFrames = {
+    mouseEnter: 0,
+    click: 30,
+    mouseLeave: 60,
+  };
 
   const init = () => {
-    // console.log('init');
-    const setupLottieAnimations = (astroLottie) => {
-      const closeAnimation = astroLottie.getAnimation("close-hover");
+    const close = document.getElementById("close")!;
+    const closeConfig = JSON.parse(close?.getAttribute("data-lottie-data")!);
 
-      if (closeAnimation?.isLoaded) {
-        closeAnimation.container.addEventListener("mouseenter", () => {
-          closeAnimation.player.setDirection(1);
-          closeAnimation.player.play();
+    const animation = Lottie.loadAnimation({
+      container: close, // the dom element that will contain the animation
+      renderer: "svg",
+      loop: closeConfig.loop ?? false,
+      autoplay: closeConfig.autoplay ?? false,
+      path: closeConfig.src, // the path to the animation json
+      rendererSettings: {
+        viewBoxOnly: true,
+      },
+    });
+
+    const setupLottieAnimations = () => {
+      if (animation) {
+        let clicked = false;
+
+        animation.wrapper.addEventListener("mouseenter", () => {
+          animation.playSegments(
+            [closeAnimationFrames.mouseLeave, closeAnimationFrames.click - 1],
+            true
+          );
         });
 
-        closeAnimation.container.addEventListener("mouseleave", () => {
-          closeAnimation.player.setDirection(-1);
-          closeAnimation.player.play();
+        animation.wrapper.addEventListener("click", () => {
+          animation.playSegments(
+            [closeAnimationFrames.click, closeAnimationFrames.mouseLeave - 1],
+            true
+          );
+
+          clicked = true;
+        });
+
+        animation.wrapper.addEventListener("mouseleave", () => {
+          if (!clicked) {
+            animation.playSegments([60, 86], true);
+          }
+          clicked = false;
         });
       }
     };
 
-    document.addEventListener("astro:page-load", () => {
-      window.astroLottie && setupLottieAnimations(window.astroLottie);
-    });
-
-    document.addEventListener("astro-lottie-loaded", (e) => {
-      setupLottieAnimations(e.detail);
-    });
+    setupLottieAnimations();
   };
 
-  // init();
-
-  // barba.hooks.afterEnter(() => {
-  //   console.log("init");
-  //   init();
-  // });
+  barba.hooks.beforeEnter((e) => {
+    init();
+  });
 </script>

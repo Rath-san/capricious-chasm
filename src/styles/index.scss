@@ -40,6 +40,11 @@ html {
   min-height: 100%;
 }
 
+html,
+a {
+  cursor: none !important;
+}
+
 body {
   //   font-family: 'Courier New', Courier, monospace;
   //   font-family: 'Chakra Petch', sans-serif;
@@ -238,9 +243,11 @@ hr {
 
 .is-animating {
   pointer-events: none;
-  & > * {
+  .entering {
     position: fixed;
   }
+  // & > * {
+  // }
 }
 
 [data-barba="container"] {
@@ -808,4 +815,14 @@ hr {
 
 .events-disabled {
   pointer-events: none;
+}
+
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.darken {
+  opacity: .5;
 }

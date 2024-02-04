@@ -15,10 +15,13 @@ const { posts } = Astro.props;
 <div class="project-list">
   {
     posts.map((post, index) => {
-      // console.log(index);
-
       return (
-        <div class:list={["conjoined-height-grid__element project-list__item line line-right" ]} data-slide>
+        <div
+          class:list={[
+            "conjoined-height-grid__element project-list__item line line-right",
+          ]}
+          data-slide
+        >
           <ProjectThumbnail
             slug={post.slug}
             title={post.data.title}
@@ -42,20 +45,28 @@ const { posts } = Astro.props;
 </div>
 
 <script>
-  const items: HTMLDivElement[] = Array.from(
-    document.querySelectorAll(".project-list__item")
-  );
+  import barba from "@barba/core";
 
-  let row = -1;
-  let itemsPerRow = 3;
-  items.forEach((item, index) => {
-    const inRow = index % itemsPerRow;
+  const init = () => {
+    const items: HTMLDivElement[] = Array.from(
+      document.querySelectorAll(".project-list__item")
+    );
 
-    if (inRow < 1) {
-      // item.classList.add("line")
-      row += 1;
-    }
+    let row = -1;
+    let itemsPerRow = 3;
+    items.forEach((item, index) => {
+      const inRow = index % itemsPerRow;
 
-    item.style.setProperty("--timing-offset", row.toString());
+      if (inRow < 1) {
+        // item.classList.add("line")
+        row += 1;
+      }
+
+      item.style.setProperty("--timing-offset", row.toString());
+    });
+  };
+
+  barba.hooks.beforeEnter(() => {
+    init();
   });
 </script>

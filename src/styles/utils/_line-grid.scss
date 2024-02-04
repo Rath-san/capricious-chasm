@@ -22,42 +22,52 @@
 
 .line {
   position: relative;
-}
 
-.line-top {
-  &::before {
-    @extend %test;
-    height: 1px;
-    inset: 0;
-    top: 0;
-    width: 100vw;
-  }
-}
+  &.project-list__item {
+    &::before,
+    &::after {
+      transition-property: width, height;
+      transition-duration: 0.2s;
+      transition-timing-function: ease-in-out;
+    }
 
-.line-bottom {
-  &::before {
-    @extend %test;
-    height: 1px;
-    inset: 0;
-    bottom: 0;
-  }
-}
+    &:nth-child(3n + 1) {
+      &::before {
+        z-index: 100;
+        @extend %test;
+        height: 1px;
+        inset: 0;
+        top: 100%;
+        width: 100vw;
+        // width: 1px;
+        // transition: transform;
 
-.line-bottom--after {
-  &::after {
-    @extend %test;
-    height: 1px;
-    inset: 0;
-    top: 100%;
-  }
-}
+        // transform: scaleX(100vw);
 
-.line-right {
-  &::after {
-    @extend %test;
-    // height: 1px;
-    width: 1px;
-    inset: 0;
-    left: 100%;
+        // .entering & {
+        //   width: 0;
+        //   // background-color: red !important;
+        // }
+      }
+    }
+
+    &:nth-child(1),
+    &:nth-child(2) {
+      &::after {
+        @extend %test;
+        width: 1px;
+        inset: 0;
+        left: 100%;
+        // current height * count or rows per breakpoint
+        height: calc(100% * 2);
+
+        // .entering & {
+          // height: 0;
+          // background-color: red !important;
+        // }
+
+        // transition: height;
+      }
+    }
   }
 }

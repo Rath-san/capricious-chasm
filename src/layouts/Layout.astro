@@ -68,8 +68,6 @@ const {
       import gsap from "gsap";
 
       const handleHref = () => {
-        // console.log("handleHref");
-
         const links = Array.from(document.querySelectorAll("a"));
         const currentHref = window.location.href;
 
@@ -83,23 +81,20 @@ const {
       };
       handleHref();
 
-      // console.log(barba, gsap);
-
       barba.hooks.before(() => {
         barba.wrapper.classList.add("is-animating");
+
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
       });
+
       barba.hooks.after(() => {
         barba.wrapper.classList.remove("is-animating");
         handleHref();
       });
-
-      // barba.hooks.enter(() => {
-      //   window.scrollTo({
-      //     top: 0,
-      //     left: 0,
-      //     behavior: "smooth"
-      //   });
-      // });
 
       const animationDuration = 1.75;
 
@@ -112,33 +107,29 @@ const {
               data.next.container.classList.add("next");
             },
             leave(data) {
-              // data.next.container.classList.add("enter");
-              // console.log(data.current.container);
               data.current.container.classList.add("leaving");
-              // data.next.container.classList.remove("enter");
               return gsap.to(data.current.container, {
-                // x: "-100vw",
                 duration: animationDuration,
               });
             },
-            // afterLeave(data) {},
             beforeEnter(data) {
               data.current.container.classList.add("current", "fixed");
             },
             enter(data) {
-              // console.log(data.next.container);
               setTimeout(() => {
                 data.next.container.classList.add("entering");
               }, 1);
-              // data.next.container.classList.remove();
+
+              setTimeout(() => {
+                data.next.container.classList.add("entering-lines");
+              }, 200);
               return gsap.from(data.next.container, {
-                //   x: "100vw",
                 duration: animationDuration,
               });
             },
             afterEnter(data) {
               data.next.container.classList.remove("entering", "next");
-              data.next.container.classList.remove("leaving", "current");
+              data.current.container.classList.remove("leaving", "current");
             },
           },
         ],
@@ -152,7 +143,6 @@ const {
         let cursorInitialized = false;
 
         cursor.addEventListener("animationend", (event) => {
-          // console.log("transitionend");
           cursor.classList.remove("animating-click");
         });
 
@@ -169,59 +159,11 @@ const {
         });
 
         document.addEventListener("click", (e) => {
-          // console.log("click");
-
           cursor.classList.add("is-animating", "animating-click");
-
-          // if (!cursorInitialized) {
-          //   cursor?.classList.add("active");
-          //   cursorInitialized = true;
-          // }
-
-          // cursor?.setAttribute(
-          //   "style",
-          //   "top: " + (e.pageY - 20) + "px; left: " + (e.pageX - 20) + "px;"
-          // );
         });
       };
 
       handleCursor();
-
-      // console.log("hello world", window.barba);
-      // console.log("hello world", window.gsap);
-
-      // const barba = window.barba;
-      // const gsap = window.gsap;
-
-      // barba.init({
-      //   debug: true,
-      //   transitions: [
-      //     {
-      //       name: "opacity-transition",
-      //       sync: true,
-      //       leave(data) {
-      //         data.current.container.classList.add("fixed");
-      //         return gsap.to(data.current.container, {
-      //           x: "-100vw",
-      //           duration: 2,
-      //         });
-      //       },
-      //       enter(data) {
-      //         return gsap.from(data.next.container, {
-      //           x: "100vw",
-      //           duration: 2,
-      //         });
-      //       },
-      //     },
-      //   ],
-      // });
     </script>
-
-    <!-- document.querySelector("#play-button").addEventListener("click", () => {
-  const animation = astroLottie.getAnimation("my-animation");
-  if (animation && animation.isLoaded) {
-    animation.player.play();
-  }
-}); -->
   </body>
 </html>
