@@ -1,0 +1,33 @@
+body {
+  &.loading {
+    > *:not(.loader) {
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+    }
+  }
+}
+
+.loader {
+  outline: 1px solid green;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background: #000;
+  top: 0;
+    z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+
+  #logo {
+    width: 25%;
+  }
+}
+
+.loading {
+    .loader {
+        opacity: 1;
+    }
+}

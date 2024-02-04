@@ -10,6 +10,7 @@ interface Props {
   title?: string;
   description: string;
   image?: string;
+  navbar?: boolean;
 }
 
 // const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -59,13 +60,60 @@ const {
     <!-- <script is:inline src="https://unpkg.com/@barba/core"></script> -->
   </head>
   <body data-barba="wrapper">
+    <div id="loader" class="loader">
+      <div
+        id="logo"
+        data-lottie-data={JSON.stringify({
+          id: "logo",
+          src: "/assets/animations/logo.json",
+          autoplay: true,
+          player: "light",
+          loop: true,
+        })}
+      >
+      </div>
+    </div>
     <div class="cursor"></div>
+
     <Navbar />
     <slot />
 
     <script>
       import barba from "@barba/core";
       import gsap from "gsap";
+      import Lottie from "lottie-web";
+
+      const loader = () => {
+        const element = document.getElementById("loader");
+        document.body.classList.add("loading");
+
+        // document.body.classList.remove("loading");
+
+        const animInit = () => {
+          const logo = document.getElementById("logo")!;
+          const logoConfig = JSON.parse(
+            logo?.getAttribute("data-lottie-data")!
+          );
+
+          Lottie.loadAnimation({
+            container: logo, // the dom element that will contain the animation
+            renderer: "svg",
+            loop: logoConfig.loop ?? false,
+            autoplay: logoConfig.autoplay ?? false,
+            path: logoConfig.src, // the path to the animation json
+            rendererSettings: {
+              viewBoxOnly: true,
+            },
+          });
+        };
+
+        animInit();
+      };
+
+      loader();
+      setTimeout(() => {
+        document.body.classList.remove("loading");
+      }, 1500);
 
       const handleHref = () => {
         const links = Array.from(document.querySelectorAll("a"));
