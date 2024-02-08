@@ -18,7 +18,7 @@ const { posts } = Astro.props;
       return (
         <div
           class:list={[
-            "conjoined-height-grid__element project-list__item line line-right",
+            "conjoined-height-grid__element project-list__item",
           ]}
           data-slide
         >
@@ -47,26 +47,26 @@ const { posts } = Astro.props;
 <script>
   import barba from "@barba/core";
 
-  const init = () => {
-    const items: HTMLDivElement[] = Array.from(
-      document.querySelectorAll(".project-list__item")
-    );
+  // const init = () => {
+  //   const items: HTMLDivElement[] = Array.from(
+  //     document.querySelectorAll(".project-list__item")
+  //   );
 
-    let row = -1;
-    let itemsPerRow = 3;
-    items.forEach((item, index) => {
-      const inRow = index % itemsPerRow;
+  //   let row = -1;
+  //   let itemsPerRow = 3;
+  //   items.forEach((item, index) => {
+  //     const inRow = index % itemsPerRow;
 
-      if (inRow < 1) {
-        // item.classList.add("line")
-        row += 1;
-      }
+  //     if (inRow < 1) {
+  //       // item.classList.add("line")
+  //       row += 1;
+  //     }
 
-      item.style.setProperty("--timing-offset", row.toString());
-    });
-  };
+  //     item.style.setProperty("--timing-offset", row.toString());
+  //   });
+  // };
 
-  barba.hooks.beforeEnter(() => {
-    init();
-  });
+  // barba.hooks.beforeEnter((e) => {
+  //   init();
+  // });
 </script>

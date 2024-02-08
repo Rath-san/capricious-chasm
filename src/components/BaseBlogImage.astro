@@ -9,7 +9,7 @@ interface Props {
 const { alt, src, index } = Astro.props;
 ---
 
-<div class="img__wrapper-wrapper project-img line line-right line-top" data-slide style={`--timing-offset: ${index || 0};`}>
+<div class="img__wrapper-wrapper project-img" data-slide style={`--timing-offset: ${index || 0};`}>
   <div class="img__wrapper">
     <img src={src} alt={alt} />
   </div>

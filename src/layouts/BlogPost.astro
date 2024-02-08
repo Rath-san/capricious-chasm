@@ -17,7 +17,7 @@ const { slug } = Astro.params;
       {
         heroImage && (
           <div
-            class="hero-image__container line line-top conjoined-height-grid__element"
+            class="hero-image__container conjoined-height-grid__element"
             data-slide
             style="--timing-offset: 0;"
           >
@@ -35,7 +35,7 @@ const { slug } = Astro.params;
           </div>
         )
       }
-      <div data-slide style={`--timing-offset: 0;`} class="line line-top">
+      <div data-slide style={`--timing-offset: 0;`} class="">
         <slot />
       </div>
     </article>

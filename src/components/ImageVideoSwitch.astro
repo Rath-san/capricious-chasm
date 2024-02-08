@@ -47,38 +47,38 @@ const { image, video, noEvents } = Astro.props;
   />
 
   <script>
-    import barba from "@barba/core";
+    // import barba from "@barba/core";
 
-    const init = () => {
-      const imageVideos = Array.from(
-        document.querySelectorAll(".image-video-switch")
-      ) as HTMLLinkElement[];
+    // const init = () => {
+    //   const imageVideos = Array.from(
+    //     document.querySelectorAll(".image-video-switch")
+    //   ) as HTMLLinkElement[];
 
-      if (!imageVideos.length) return;
+    //   if (!imageVideos.length) return;
 
-      const vietVideoFromTile = (imageVideoElement: HTMLLinkElement) =>
-        imageVideoElement.querySelector("video");
+    //   const vietVideoFromTile = (imageVideoElement: HTMLLinkElement) =>
+    //     imageVideoElement.querySelector("video");
 
-      imageVideos.forEach((imageVideo) => {
-        const video = vietVideoFromTile(imageVideo);
+    //   imageVideos.forEach((imageVideo) => {
+    //     const video = vietVideoFromTile(imageVideo);
 
-        if (!video) return;
+    //     if (!video) return;
 
-        imageVideo?.addEventListener("mouseenter", () => {
-          video.play();
-        });
+    //     imageVideo?.addEventListener("mouseenter", () => {
+    //       video.play();
+    //     });
 
-        imageVideo?.addEventListener("mouseleave", () => {
-          video.pause();
-          video.currentTime = 0;
-        });
-      });
-    };
+    //     imageVideo?.addEventListener("mouseleave", () => {
+    //       video.pause();
+    //       video.currentTime = 0;
+    //     });
+    //   });
+    // };
 
-    init();
+    // init();
 
-    barba.hooks.after(() => {
-      init();
-    });
+    // barba.hooks.after(() => {
+    //   init();
+    // });
   </script>
 </div>

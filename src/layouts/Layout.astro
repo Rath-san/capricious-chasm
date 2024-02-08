@@ -2,8 +2,9 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import "../styles/index.scss";
-import { ViewTransitions } from "astro:transitions";
+// import { ViewTransitions } from "astro:transitions";
 import Navbar from "../components/navbar/Navbar.astro";
+import Loader from "../components/Loader.astro";
 import { SITE_TITLE } from "../consts";
 
 interface Props {
@@ -59,162 +60,54 @@ const {
     <!-- <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script> -->
     <!-- <script is:inline src="https://unpkg.com/@barba/core"></script> -->
   </head>
-  <body data-barba="wrapper">
-    <div id="loader" class="loader">
-      <div
-        id="logo"
-        data-lottie-data={JSON.stringify({
-          id: "logo",
-          src: "/assets/animations/logo.json",
-          autoplay: true,
-          player: "light",
-          loop: true,
-        })}
-      >
-      </div>
-      <h6 class="loader__text">
-        loading
-      </h6>
-    </div>
+  <body data-barba="wrapper" class="loading">
+    <Loader />
     <div class="cursor"></div>
 
     <Navbar />
     <slot />
 
     <script>
-      import barba from "@barba/core";
-      import gsap from "gsap";
-      import Lottie from "lottie-web";
+      import useCursor from "../scripts/Cursor";
+      import useHref from "../scripts/HandleHref";
+      // import useLoader from "../scripts/Loader";
+      import useBarba from "../scripts/Barba";
+      import useImageVideoSwitch from "../scripts/ImageVideoSwitch";
+      import useHeroImage from "../scripts/HeroImage";
 
-      const loader = () => {
-        const element = document.getElementById("loader");
-        document.body.classList.add("loading");
+      const {
+        barba,
+        barbaInit,
+        before: barbaBefore,
+        after: barbaAfter,
+      } = useBarba();
 
-        // document.body.classList.remove("loading");
+      const { initHref } = useHref();
+      const { initCursor } = useCursor();
+      const { lottieAnimationsInit } = useHeroImage();
 
-        const animInit = () => {
-          const logo = document.getElementById("logo")!;
-          const logoConfig = JSON.parse(
-            logo?.getAttribute("data-lottie-data")!
-          );
+      barbaInit();
 
-          Lottie.loadAnimation({
-            container: logo, // the dom element that will contain the animation
-            renderer: "svg",
-            loop: logoConfig.loop ?? false,
-            autoplay: logoConfig.autoplay ?? false,
-            path: logoConfig.src, // the path to the animation json
-            rendererSettings: {
-              viewBoxOnly: true,
-            },
-          });
-        };
-
-        animInit();
-      };
-
-      loader();
-      setTimeout(() => {
-        document.body.classList.remove("loading");
-      }, 1500);
-
-      const handleHref = () => {
-        const links = Array.from(document.querySelectorAll("a"));
-        const currentHref = window.location.href;
-
-        links.forEach((a) => {
-          if (a.href == currentHref) {
-            a.classList.add("events-disabled");
-          } else {
-            a.classList.remove("events-disabled");
-          }
-        });
-      };
-      handleHref();
-
-      barba.hooks.before(() => {
+      barbaBefore(() => {
         barba.wrapper.classList.add("is-animating");
-
         window.scrollTo({
           top: 0,
           left: 0,
           behavior: "smooth",
         });
+        lottieAnimationsInit();
       });
-
-      barba.hooks.after(() => {
+      barbaAfter(() => {
         barba.wrapper.classList.remove("is-animating");
-        handleHref();
+        initHref();
+        useImageVideoSwitch();
       });
 
-      const animationDuration = 1.75;
+      initHref();
+      useImageVideoSwitch();
+      lottieAnimationsInit();
 
-      barba.init({
-        transitions: [
-          {
-            name: "opacity-transition",
-            sync: true,
-            before(data) {
-              data.next.container.classList.add("next");
-            },
-            leave(data) {
-              data.current.container.classList.add("leaving");
-              return gsap.to(data.current.container, {
-                duration: animationDuration,
-              });
-            },
-            beforeEnter(data) {
-              data.current.container.classList.add("current", "fixed");
-            },
-            enter(data) {
-              setTimeout(() => {
-                data.next.container.classList.add("entering");
-              }, 1);
-
-              setTimeout(() => {
-                data.next.container.classList.add("entering-lines");
-              }, 200);
-              return gsap.from(data.next.container, {
-                duration: animationDuration,
-              });
-            },
-            afterEnter(data) {
-              data.next.container.classList.remove("entering", "next");
-              data.current.container.classList.remove("leaving", "current");
-            },
-          },
-        ],
-      });
-
-      const handleCursor = () => {
-        const cursor = document.querySelector(".cursor");
-
-        if (!cursor) return;
-
-        let cursorInitialized = false;
-
-        cursor.addEventListener("animationend", (event) => {
-          cursor.classList.remove("animating-click");
-        });
-
-        document.addEventListener("mousemove", (e) => {
-          if (!cursorInitialized) {
-            cursor?.classList.add("active");
-            cursorInitialized = true;
-          }
-
-          cursor?.setAttribute(
-            "style",
-            "top: " + (e.pageY - 20) + "px; left: " + (e.pageX - 20) + "px;"
-          );
-        });
-
-        document.addEventListener("click", (e) => {
-          cursor.classList.add("is-animating", "animating-click");
-        });
-      };
-
-      handleCursor();
+      initCursor();
     </script>
   </body>
 </html>
